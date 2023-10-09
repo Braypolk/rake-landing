@@ -68,7 +68,7 @@
       >
     </div>
     <div class="below w-10/12 mx-auto">
-      <video class="mx-auto" {poster} src={video} controls autoplay muted loop>
+      <video class="mx-auto" {poster} src={video} controls disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate nomode" autoplay muted loop>
         <track kind="captions" />
       </video>
       <h3

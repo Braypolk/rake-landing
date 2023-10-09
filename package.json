@@ -23,6 +23,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@fontsource-variable/mulish": "^5.0.14"
+    "@fontsource-variable/mulish": "^5.0.14",
+    "@vercel/analytics": "^1.1.0"
   }
 }
