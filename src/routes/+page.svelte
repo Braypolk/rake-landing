@@ -1,9 +1,11 @@
 <script>
   import { onMount } from "svelte";
   import Box from "../lib/components/Box.svelte";
+  import Email from "../lib/components/Email.svelte";
 
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
   import { LightSwitch } from "@skeletonlabs/skeleton";
+  import { Modal, getModalStore } from "@skeletonlabs/skeleton";
 
   import tag from "$lib/assets/tag.png";
   import poster from "$lib/assets/video-placeholder.png";
@@ -12,6 +14,23 @@
   import one from "$lib/assets/one.png";
   import two from "$lib/assets/two.png";
   import three from "$lib/assets/three.png";
+
+  const modalStore = getModalStore();
+  const modalComponent = {
+    // Pass a reference to your custom component
+    ref: Email,
+    // Add the component properties as key/value pairs
+    props: { width: "w-10/12 md:w-4/12" },
+    // Provide a template literal for the default component slot
+  };
+  const modal = {
+    type: "component",
+    component: modalComponent,
+  };
+
+  function openModal() {
+    modalStore.trigger(modal);
+  }
 
   onMount(() => {
     // array with texts to type in typewriter
@@ -50,7 +69,7 @@
   });
 </script>
 
-<div class="wrapper">
+<div class="wrapper max-w-[1500px] mx-auto">
   <div class="p-5" />
   <div class="landing w-full bg-surface-900">
     <img src={tag} class="w-9/12 m-auto" />
@@ -58,17 +77,24 @@
       <!-- todo: make this bring up a modal that lets you enter email instead of scrolling to bottom -->
       <button
         type="button"
-        on:click={() => {
-          document
-            .getElementById("join")
-            .scrollIntoView({ behavior: "smooth" });
-        }}
+        on:click={openModal}
         class="btn px-32 py-6 variant-ghost-tertiary hover:hover:variant-ghost-primary"
-        >Join the waitlist</button
-      >
+        >Join the waitlist
+      </button>
+      <Modal />
     </div>
     <div class="below w-10/12 mx-auto">
-      <video class="mx-auto" {poster} src={video} controls disablepictureinpicture controlsList="nofullscreen nodownload noremoteplayback noplaybackrate nomode" autoplay muted loop>
+      <video
+        class="mx-auto"
+        {poster}
+        src={video}
+        controls
+        disablepictureinpicture
+        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate nomode"
+        autoplay
+        muted
+        loop
+      >
         <track kind="captions" />
       </video>
       <h3
@@ -92,9 +118,9 @@
   >
     <!-- todo change width on sm -->
     <div
-      class="w-10/12 mx-auto flex items-center justify-between flex-col sm:flex-row"
+      class="w-10/12 mx-auto flex items-center justify-between flex-col md:flex-row gap-8"
     >
-      <div class="textgroup pl-6 w-[45%] pt-7">
+      <div class="textgroup pl-6 w-full md:w-[45%] pt-7">
         <h2 class="text-h2-scale font-[650] pb-[11px]">
           A groundbreaking new way to deploy your cloud infrastructure
         </h2>
@@ -106,7 +132,7 @@
           spend less time bug squashing and more time for innovating.
         </p>
       </div>
-      <img class="w-6/12 object-contain px-12" src={circle} />
+      <img class="w-full md:w-6/12 object-contain px-12" src={circle} />
     </div>
   </div>
 
@@ -130,8 +156,8 @@
 
   <!-- todo: fix padding to be more reactive on screensize -->
   <div class="secondinfo bg-secondary-50 text-on-primary-token">
-    <div class="flex flex-wrap justify-evenly px-12 pb-28">
-      <div class="left w-full sm:w-4/12 min-w-[210px] pt-24">
+    <div class="flex flex-wrap justify-evenly px-12 pb-10 md:pb-28">
+      <div class="left w-full sm:w-4/12 min-w-[210px] pt-10 md:pt-24">
         <h2 class="text-h2-scale font-semibold pb-[4vh] text-[#2a97fe]">
           Complex tasks made easy
         </h2>
@@ -154,7 +180,9 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap justify-evenly">
+    <div
+      class="flex flex-wrap justify-evenly flex-col gap-14 md:gap-0 md:flex-row"
+    >
       <Box
         shadow="drop-shadow-[-16px_16px_17px_rgb(182,208,242)]"
         upDown="top-10"
@@ -194,19 +222,17 @@
     <h2 class="text-h2-scale font-semibold pb-[11px] text-center pb-20">
       Simplifying the system.
     </h2>
-    <div class="flex justify-evenly">
-      <div class="leftList w-4/12">
-        <h3
-          class="text-h3-scale px-4 pb-4 border-b-[1px] border-white border-bottom-solid"
-        >
+    <div
+      class="w-10/12 mx-auto md:w-full flex justify-evenly flex-col md:flex-row pt-10 gap-10 md:gap-0"
+    >
+      <div class="leftList w-full md:w-4/12 pb-10">
+        <h3 class="text-h3-scale px-4 pb-4 border-b-[1px] border-white">
           Development now
         </h3>
         <!-- todo: once one is open it cannot be closed -->
         <!-- todo: on different window sizes the items don't align -->
         <Accordion autocollapse padding="py-6 px-6">
-          <AccordionItem
-            class="border-b-[1px] border-white border-bottom-solid"
-          >
+          <AccordionItem class="border-y-[1px] border-white">
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Lengthy development times</span
@@ -219,9 +245,7 @@
               ></svelte:fragment
             >
           </AccordionItem>
-          <AccordionItem
-            class="border-b-[1px] border-white border-bottom-solid"
-          >
+          <AccordionItem class="border-b-[1px] border-white ">
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Inefficient flow</span></svelte:fragment
@@ -234,9 +258,7 @@
               ></svelte:fragment
             >
           </AccordionItem>
-          <AccordionItem
-            class="border-b-[1px] border-white border-bottom-solid"
-          >
+          <AccordionItem class="border-b-[1px] border-white ">
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Cumbersome to manage</span
@@ -254,16 +276,12 @@
         </Accordion>
       </div>
 
-      <div class="rightList w-4/12">
-        <h3
-          class="text-h3-scale px-4 pb-4 border-b-[1px] border-white border-bottom-solid"
-        >
+      <div class="rightList w-full md:w-4/12">
+        <h3 class="text-h3-scale px-4 pb-4 border-b-[1px] border-white">
           Development using <span class="text-primary-500">Rake</span>
         </h3>
         <Accordion autocollapse padding="py-6 px-6">
-          <AccordionItem
-            class="border-b-[1px] border-white border-bottom-solid"
-          >
+          <AccordionItem class="border-y-[1px] border-white ">
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Instant Deployment</span></svelte:fragment
@@ -276,9 +294,7 @@
               >
             </svelte:fragment>
           </AccordionItem>
-          <AccordionItem
-            class="border-b-[1px] border-white border-bottom-solid"
-          >
+          <AccordionItem class="border-b-[1px] border-white ">
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Live Resource Managing</span
@@ -292,9 +308,7 @@
               ></svelte:fragment
             >
           </AccordionItem>
-          <AccordionItem
-            class="border-b-[1px] border-white border-bottom-solid"
-          >
+          <AccordionItem class="border-b-[1px] border-white ">
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Simple Interface</span></svelte:fragment
@@ -314,18 +328,22 @@
 
   <div class="building bg-secondary-50 text-on-primary-token p-[2vw]">
     <div class="moveBackground bg-primary-500 py-16">
-      <h2 class="text-h2-scale font-bold pb-16 text-center">
+      <h2 class="text-4xl md:text-h2-scale font-bold pb-16 text-center">
         Building for the future
       </h2>
-      <div class="flex justify-center items-center gap-10 pb-16">
-        <p class="w-3/12 text-2xl font-extrabold">
-          With the introduction of A.I., building your entire system will be
-          just a few words away…
+      <div
+        class="flex flex-col md:flex-row justify-center items-center gap-10 pb-16"
+      >
+        <p
+          class="mx-auto md:mx-0 w-11/12 md:w-3/12 text-xl md:text-2xl font-bold md:font-extrabold"
+        >
+          With the introduction of AI, building your entire system will be just
+          a few words away…
         </p>
         <div
-          class="text-on-secondary-token bg-surface-500 w-4/12 h-[16vw] flex items-center justify-center rounded-2xl"
+          class="text-on-secondary-token bg-surface-500 w-10/12 md:w-4/12 h-[200px] md:h-[16vw] flex items-center justify-center rounded-2xl"
         >
-          <div class="p-2 text-center font-extrabold">
+          <div class="w-9/12 p-2 text-center font-extrabold">
             <p class="inline text-[#2a97fe]">"</p>
             <p class="inline" id="writingBlock">
               create a secure and HIPAA-compliant endpoint to access anonymized
@@ -345,28 +363,7 @@
         Revolutionize Your<br /> Cloud Development<br />with
         <span class="text-primary-500">Rake</span>
       </h2>
-      <div
-        class="email bg-secondary-50 text-on-primary-token mx-auto rounded-2xl p-8"
-      >
-      <!-- todo: actually make this email sign up work -->
-        <form class="form block">
-          <label for="email" class="font-light"
-            >Email <span class="text-success-700 font-light">(required)</span
-            ></label
-          >
-          <!-- todo: change active state -->
-          <input
-            class="w-full p-2 my-4 rounded-none border-[1px] border-success-500"
-            type="email"
-            id="email"
-          />
-          <input
-            class="block mx-auto mb-4 btn btn-lg bg-gradient-to-br variant-gradient-primary-tertiary"
-            type="submit"
-            value="Join"
-          />
-        </form>
-      </div>
+      <Email />
     </div>
   </div>
   <footer class="bg-surface-800 p-10 font-extralight">

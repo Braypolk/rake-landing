@@ -5,7 +5,10 @@
   import { dev } from "$app/environment";
   import { inject } from "@vercel/analytics";
 
+  import { initializeStores } from "@skeletonlabs/skeleton";
+
   inject({ mode: dev ? "development" : "production" });
+  initializeStores();
 </script>
 
 <slot />
