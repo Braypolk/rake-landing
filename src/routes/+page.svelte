@@ -1,0 +1,378 @@
+<script>
+  import { onMount } from "svelte";
+  import Box from "../lib/components/Box.svelte";
+
+  import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
+  import { LightSwitch } from "@skeletonlabs/skeleton";
+
+  import tag from "$lib/assets/tag.png";
+  import poster from "$lib/assets/video-placeholder.png";
+  import video from "$lib/assets/rake-dark.mp4";
+  import circle from "$lib/assets/circle.png";
+  import one from "$lib/assets/one.png";
+  import two from "$lib/assets/two.png";
+  import three from "$lib/assets/three.png";
+
+  onMount(() => {
+    // array with texts to type in typewriter
+    var dataText = [
+      "create a secure and HIPAA-compliant endpoint to access anonymized patient data",
+      "separate global web traffic by country ip source",
+      "add new layers of security to protect user data",
+      "make a system to automatically scale our existing infrastructure",
+    ];
+
+    function typeWriter(text, i, fnCallback) {
+      if (i < text.length) {
+        document.querySelector("#writingBlock").textContent = text.substring(
+          0,
+          i + 1
+        );
+        setTimeout(function () {
+          typeWriter(text, i + 1, fnCallback);
+        }, 50);
+      } else if (typeof fnCallback == "function") {
+        setTimeout(fnCallback, 700);
+      }
+    }
+    function StartTextAnimation(i) {
+      if (dataText[i] === undefined) {
+        setTimeout(function () {
+          StartTextAnimation(0);
+        }, 700);
+      } else if (i < dataText[i].length) {
+        typeWriter(dataText[i], 0, function () {
+          StartTextAnimation(i + 1);
+        });
+      }
+    }
+    StartTextAnimation(0);
+  });
+</script>
+
+<div class="wrapper">
+  <div class="p-5" />
+  <div class="landing w-full bg-surface-900">
+    <img src={tag} class="w-9/12 m-auto" />
+    <div class="join p-20 flex justify-center align-center">
+      <!-- todo: make this bring up a modal that lets you enter email instead of scrolling to bottom -->
+      <button
+        type="button"
+        on:click={() => {
+          document
+            .getElementById("join")
+            .scrollIntoView({ behavior: "smooth" });
+        }}
+        class="btn px-32 py-6 variant-ghost-tertiary hover:hover:variant-ghost-primary"
+        >Join the waitlist</button
+      >
+    </div>
+    <div class="below w-10/12 mx-auto">
+      <video class="mx-auto" {poster} src={video} controls autoplay muted loop>
+        <track kind="captions" />
+      </video>
+      <h3
+        class="text-center font-semibold pt-12 pb-24 text-4xl leading-relaxed"
+      >
+        Rake allows users to <span
+          class="text-primary-500 bg-secondary-500 font-bold"
+        >
+          <strong>deploy</strong>
+        </span>
+        resources straight to their cloud platform with a simple
+        <span class="text-primary-500 bg-secondary-500"
+          ><strong>drag and drop</strong></span
+        > interface.
+      </h3>
+    </div>
+  </div>
+
+  <div
+    class="firstinfo bg-secondary-50 text-on-primary-token pt-[3.3vmax] pb-[3.3vmax]"
+  >
+    <!-- todo change width on sm -->
+    <div
+      class="w-10/12 mx-auto flex items-center justify-between flex-col sm:flex-row"
+    >
+      <div class="textgroup pl-6 w-[45%] pt-7">
+        <h2 class="text-h2-scale font-[650] pb-[11px]">
+          A groundbreaking new way to deploy your cloud infrastructure
+        </h2>
+        <p class="leading-[1.8] font-light">
+          Transform your cloud deployment workflow. Once deployed,
+          configurations and manifests are generated and sent to a managed
+          kubernetes cluster. This cluster assumes responsibility for
+          synchronizing statuses between your diagram and the cloud. Letting you
+          spend less time bug squashing and more time for innovating.
+        </p>
+      </div>
+      <img class="w-6/12 object-contain px-12" src={circle} />
+    </div>
+  </div>
+
+  <svg
+    width="1512"
+    height="80"
+    viewBox="0 0 1512 80"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="bg-secondary-50 w-full"
+  >
+    <line
+      x1="-0.14665"
+      y1="77.0036"
+      x2="1511.85"
+      y2="3.00358"
+      stroke="black"
+      stroke-width="6"
+    />
+  </svg>
+
+  <!-- todo: fix padding to be more reactive on screensize -->
+  <div class="secondinfo bg-secondary-50 text-on-primary-token">
+    <div class="flex flex-wrap justify-evenly px-12 pb-28">
+      <div class="left w-full sm:w-4/12 min-w-[210px] pt-24">
+        <h2 class="text-h2-scale font-semibold pb-[4vh] text-[#2a97fe]">
+          Complex tasks made easy
+        </h2>
+        <p class="leading-[1.8] font-light">
+          Rake is quick, user-friendly, and highly customizable. Everything is
+          optimized so you can spend less time developing and more time growing
+          your business.
+        </p>
+      </div>
+
+      <div class="right pt-14 w-full sm:w-4/12 min-w-[210px]">
+        <h2 class="text-h2-scale font-semibold pb-[4vh]">
+          Optimizing an aging system
+        </h2>
+        <p class="leading-[1.8] font-light">
+          Manually coding entire systems, testing, and debugging is a thing of
+          the past. Rake is the next evolution is in developing cloud
+          technologies.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-evenly">
+      <Box
+        shadow="drop-shadow-[-16px_16px_17px_rgb(182,208,242)]"
+        upDown="top-10"
+      >
+        <img slot="icon" src={one} />
+        <p slot="info" class="font-medium">
+          Trade long complex configs for efficient interfaces
+        </p>
+      </Box>
+      <Box shadow="drop-shadow-[-16px_16px_17px_rgb(188,201,218)]">
+        <img slot="icon" src={two} />
+        <p slot="info" class="font-medium">
+          Retain the functionality of code with the simplicity of visuals
+        </p>
+      </Box>
+      <Box
+        shadow="drop-shadow-[-16px_16px_17px_rgb(191,194,198)]"
+        upDown="-top-10"
+      >
+        <img slot="icon" src={three} />
+        <p slot="info" class="font-medium">
+          Optimize variable management for efficiency and accuracy
+        </p>
+      </Box>
+    </div>
+  </div>
+
+  <div class="pt-10 pb-[3.3vmax] bg-secondary-50" />
+
+  <div class="overflow-x-hidden">
+    <div
+      class="bg-secondary-50 w-full h-0 border-solid border-x-transparent border-l-[100vw] border-r-0 border-b-[6vw] border-b-surface-800"
+    />
+  </div>
+  <div class="py-20 bg-surface-800">
+    <!-- <div class="wedge"></div> -->
+    <h2 class="text-h2-scale font-semibold pb-[11px] text-center pb-20">
+      Simplifying the system.
+    </h2>
+    <div class="flex justify-evenly">
+      <div class="leftList w-4/12">
+        <h3
+          class="text-h3-scale px-4 pb-4 border-b-[1px] border-white border-bottom-solid"
+        >
+          Development now
+        </h3>
+        <!-- todo: once one is open it cannot be closed -->
+        <!-- todo: on different window sizes the items don't align -->
+        <Accordion autocollapse padding="py-6 px-6">
+          <AccordionItem
+            class="border-b-[1px] border-white border-bottom-solid"
+          >
+            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
+            <svelte:fragment slot="summary"
+              ><span class="text-lg">Lengthy development times</span
+              ></svelte:fragment
+            >
+            <svelte:fragment slot="content"
+              ><span class="text-md font-extralight"
+                >Typically it would take a team of people weeks, if not months,
+                of work to do something Rake can handle in a few minutes.</span
+              ></svelte:fragment
+            >
+          </AccordionItem>
+          <AccordionItem
+            class="border-b-[1px] border-white border-bottom-solid"
+          >
+            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
+            <svelte:fragment slot="summary"
+              ><span class="text-lg">Inefficient flow</span></svelte:fragment
+            >
+            <svelte:fragment slot="content"
+              ><span class="text-md font-extralight"
+                >After initial diagramming of the project, there is constant
+                back and forth between development and testing. Creating a
+                clunky and outdated workflow.</span
+              ></svelte:fragment
+            >
+          </AccordionItem>
+          <AccordionItem
+            class="border-b-[1px] border-white border-bottom-solid"
+          >
+            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
+            <svelte:fragment slot="summary"
+              ><span class="text-lg">Cumbersome to manage</span
+              ></svelte:fragment
+            >
+            <svelte:fragment slot="content"
+              ><span class="text-md font-extralight"
+                >Deploying cloud resources can be cumbersome. Navigating
+                configurations, managing security, and understanding intricate
+                platforms require deep expertise, overshadowing the cloud's
+                inherent flexibility and scalability.</span
+              ></svelte:fragment
+            >
+          </AccordionItem>
+        </Accordion>
+      </div>
+
+      <div class="rightList w-4/12">
+        <h3
+          class="text-h3-scale px-4 pb-4 border-b-[1px] border-white border-bottom-solid"
+        >
+          Development using <span class="text-primary-500">Rake</span>
+        </h3>
+        <Accordion autocollapse padding="py-6 px-6">
+          <AccordionItem
+            class="border-b-[1px] border-white border-bottom-solid"
+          >
+            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
+            <svelte:fragment slot="summary"
+              ><span class="text-lg">Instant Deployment</span></svelte:fragment
+            >
+            <svelte:fragment slot="content"
+              ><span class="text-md font-extralight"
+                >No more waiting for teams of people to build and modify
+                systems, everything can now be done, from as little as one user,
+                in a fraction of the time.</span
+              >
+            </svelte:fragment>
+          </AccordionItem>
+          <AccordionItem
+            class="border-b-[1px] border-white border-bottom-solid"
+          >
+            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
+            <svelte:fragment slot="summary"
+              ><span class="text-lg">Live Resource Managing</span
+              ></svelte:fragment
+            >
+            <svelte:fragment slot="content"
+              ><span class="text-md font-extralight"
+                >No more bug chasing or error checking, your entire systems’
+                resources are managed live between your cloud platform. You have
+                complete control and visibility at all times.</span
+              ></svelte:fragment
+            >
+          </AccordionItem>
+          <AccordionItem
+            class="border-b-[1px] border-white border-bottom-solid"
+          >
+            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
+            <svelte:fragment slot="summary"
+              ><span class="text-lg">Simple Interface</span></svelte:fragment
+            >
+            <svelte:fragment slot="content"
+              ><span class="text-md font-extralight"
+                >Using a diagram to accomplish all of your development tasks
+                results in one simple to use interface at the heart of all of
+                your infrastructure needs.</span
+              ></svelte:fragment
+            >
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </div>
+  </div>
+
+  <div class="building bg-secondary-50 text-on-primary-token p-[2vw]">
+    <div class="moveBackground bg-primary-500 py-16">
+      <h2 class="text-h2-scale font-bold pb-16 text-center">
+        Building for the future
+      </h2>
+      <div class="flex justify-center items-center gap-10 pb-16">
+        <p class="w-3/12 text-2xl font-extrabold">
+          With the introduction of A.I., building your entire system will be
+          just a few words away…
+        </p>
+        <div
+          class="text-on-secondary-token bg-surface-500 w-4/12 h-[16vw] flex items-center justify-center rounded-2xl"
+        >
+          <div class="p-2 text-center font-extrabold">
+            <p class="inline text-[#2a97fe]">"</p>
+            <p class="inline" id="writingBlock">
+              create a secure and HIPAA-compliant endpoint to access anonymized
+              patient data
+            </p>
+            <p class="inline text-[#2a97fe]">"</p>
+            <!-- <div>Deploy with Rake</div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-surface-800" id="join">
+    <div class="h-[80vh] w-fit mx-auto bg-surface-800 py-20">
+      <h2 class="text-h2-scale w-fit font-bold pb-10 pr-24">
+        Revolutionize Your<br /> Cloud Development<br />with
+        <span class="text-primary-500">Rake</span>
+      </h2>
+      <div
+        class="email bg-secondary-50 text-on-primary-token mx-auto rounded-2xl p-8"
+      >
+      <!-- todo: actually make this email sign up work -->
+        <form class="form block">
+          <label for="email" class="font-light"
+            >Email <span class="text-success-700 font-light">(required)</span
+            ></label
+          >
+          <!-- todo: change active state -->
+          <input
+            class="w-full p-2 my-4 rounded-none border-[1px] border-success-500"
+            type="email"
+            id="email"
+          />
+          <input
+            class="block mx-auto mb-4 btn btn-lg bg-gradient-to-br variant-gradient-primary-tertiary"
+            type="submit"
+            value="Join"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-surface-800 p-10 font-extralight">
+    Property of Rake LLC. All rights reserved. 2023
+  </footer>
+</div>
+
+<style>
+</style>
