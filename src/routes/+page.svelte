@@ -72,31 +72,30 @@
 <div class="wrapper max-w-[1500px] mx-auto">
   <div class="p-5" />
   <div class="landing w-full bg-surface-900">
-    <img src={tag} class="w-9/12 m-auto" />
+    <img src={tag} class="w-11/12 sm:w-9/12 m-auto" />
     <div class="join p-20 flex justify-center align-center">
-      <!-- todo: make this bring up a modal that lets you enter email instead of scrolling to bottom -->
       <button
         type="button"
         on:click={openModal}
         class="btn px-32 py-6 variant-ghost-tertiary hover:hover:variant-ghost-primary"
         >Join the waitlist
       </button>
-      <Modal />
+      <Modal position='items-start' transitionInParams={{ duration: 150, opacity: 0, x: 0, y: -100 }} transitionOutParams={{ duration: 150, opacity: 0, x: 0, y: -100 }}/>
     </div>
     <div class="below w-10/12 mx-auto">
       <video
         class="mx-auto"
         {poster}
-        src={video}
         controls
         disablepictureinpicture
         controlsList="nofullscreen nodownload noremoteplayback noplaybackrate nomode"
         autoplay
-        muted
         loop
       >
+      <source src={video}>
         <track kind="captions" />
       </video>
+
       <h3
         class="text-center font-semibold pt-12 pb-24 text-4xl leading-relaxed"
       >
@@ -328,7 +327,7 @@
 
   <div class="building bg-secondary-50 text-on-primary-token p-[2vw]">
     <div class="moveBackground bg-primary-500 py-16">
-      <h2 class="text-4xl md:text-h2-scale font-bold pb-16 text-center">
+      <h2 class="w-11/12 sm: w-full text-4xl md:text-h2-scale font-bold pb-16 text-center">
         Building for the future
       </h2>
       <div
