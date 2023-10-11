@@ -11,7 +11,6 @@
   const handleChange = ({ detail }) => {
     isInView = detail.inView;
     scrollDirection = detail.scrollDirection.vertical;
-    console.log(scrollDirection);
   };
 </script>
 
