@@ -427,7 +427,7 @@
   <div class="bg-secondary-50 building text-on-primary-token relative w-full">
     <BlurBackground bind:this={blurBackgroundComponent} />
     <div class="moveBackground relative z-20 py-[6vw] w-full h-full">
-      <div class="mx-auto py-16 w-[calc(100%-12vw)] rounded-2xl">
+      <div class="mx-auto py-16 w-[calc(100%-12vw)] rounded-2xl backgroundGradient">
         <h2
           class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center text-[var(--dark-color)]"
         >
@@ -501,5 +501,9 @@
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
+  }
+
+  .backgroundGradient {
+    background: var(--bg-gradient);
   }
 </style>
