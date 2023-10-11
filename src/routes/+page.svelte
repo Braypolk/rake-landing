@@ -218,7 +218,7 @@
 
     <AnimateItem>
       <div
-        class="flex flex-wrap justify-evenly flex-col gap-14 md:gap-0 md:flex-row"
+        class="flex flex-wrap justify-evenly flex-col gap-24 md:gap-0 md:flex-row"
       >
         <Box
           shadow="drop-shadow-[-16px_16px_17px_rgb(182,208,242)]"
