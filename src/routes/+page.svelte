@@ -5,6 +5,7 @@
   import BlurBackground from "$lib/components/BlurBackground.svelte";
   import changeColor from "$lib/components/BlurBackground.svelte";
   import AnimateItem from "$lib/components/AnimateItem.svelte";
+  // import { hue, hueComplimentary1, hueComplimentary2 } from "$lib/stores.js"
 
   import { inview } from "svelte-inview";
 
@@ -428,11 +429,10 @@
                 anonymized patient data
               </p>
               <p class="inline text-gradient">"</p>
-              <!-- <div>Deploy with Rake</div> -->
             </div>
             <!-- todo get button to change color -->
             <button
-              class="absolute bg-secondary-50 text-on-primary-token p-4 rounded-lg bottom-0 translate-y-1/2 hover:p-6 transition-all duration-100 delay-0"
+              class="absolute bg-secondary-50 text-on-primary-token p-4 rounded-lg bottom-0 translate-y-1/2 transition-all duration-100 delay-0 hover:p-6 active:p-8"
               on:click={changeColor}
             >
               Deploy With Rake
