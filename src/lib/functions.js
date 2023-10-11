@@ -7,3 +7,12 @@ export function map(n, start1, end1, start2, end2) {
 export function random(min, max) {
     return Math.random() * (max - min) + min;
 }
+
+export function changeColor(colorPalette) {
+    colorPalette.setColors();
+    // $colorPalette.setCustomProperties();
+
+    orbs.forEach((orb) => {
+      orb.fill = colorPalette.randomColor();
+    });
+  }

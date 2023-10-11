@@ -8,7 +8,7 @@ import hsl from "hsl-to-hex";
 export default class ColorPalette {
     constructor() {
         this.setColors();
-        this.setCustomProperties();
+        // this.setCustomProperties();
     }
 
     setColors() {
@@ -52,13 +52,9 @@ export default class ColorPalette {
         );
     }
 
-    setCustomProperties() {
-        // $hue = this.hue;
-        // $hueComplimentary1 = this.complimentaryHue1;
-        // $hueComplimentary2 = this.complimentaryHue2;
-        // hue.set(this.hue);
-        // hueComplimentary1.set(this.complimentaryHue1);
-        // hueComplimentary2.set(this.complimentaryHue2);
-        // console.log(this.hue, this.complimentaryHue1, this.complimentaryHue2);
-    }
+    // setCustomProperties() {
+    //     document.documentElement.style.setProperty("--hue", $colorPalette.hue);
+    //     document.documentElement.style.setProperty("--hue-complimentary1", $colorPalette.complimentaryHue1);
+    //     document.documentElement.style.setProperty("--hue-complimentary2", $colorPalette.complimentaryHue2);
+    //     }
 }

@@ -3,14 +3,13 @@
   import Box from "$lib/components/Box.svelte";
   import Email from "$lib/components/Email.svelte";
   import BlurBackground from "$lib/components/BlurBackground.svelte";
-  import changeColor from "$lib/components/BlurBackground.svelte";
   import AnimateItem from "$lib/components/AnimateItem.svelte";
-  // import { hue, hueComplimentary1, hueComplimentary2 } from "$lib/stores.js"
+  import { colorPalette, hue, hueComplimentary1, hueComplimentary2 } from "$lib/stores.js";
 
   import { inview } from "svelte-inview";
 
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
-  import { LightSwitch } from "@skeletonlabs/skeleton";
+  import { LightSwitch } from "@skeletonlabs/skeleton"; // todo: change all elements to be light and dark theme
   import { Modal, getModalStore } from "@skeletonlabs/skeleton";
 
   import tag from "$lib/assets/tag.png";
@@ -20,6 +19,21 @@
   import one from "$lib/assets/one.png";
   import two from "$lib/assets/two.png";
   import three from "$lib/assets/three.png";
+
+  let blurBackgroundComponent;
+  let handleColorChange;
+
+  $: cssColors = `--dark-color: hsl${$hue}, 100%, 9%);
+    --light-color: hsl(${$hue}, 95%, 98%);
+    --base: hsl(${$hue}, 95%, 50%);
+    --complimentary1: hsl(${$hueComplimentary1}, 95%, 50%);
+    --complimentary2: hsl(${$hueComplimentary2}, 95%, 50%);
+
+    --bg-gradient: linear-gradient(
+      to bottom,
+      hsl(${$hue}, 95%, 99%),
+      hsl(${$hue}, 95%, 84%)
+    );`
 
   let open = [
     [false, false, false],
@@ -93,9 +107,18 @@
     }
     StartTextAnimation(0);
   });
+
+  onMount(function(){
+		handleColorChange = function(){
+      blurBackgroundComponent.changeColor();
+		}
+	})
 </script>
 
-<div class="wrapper max-w-[1500px] mx-auto">
+<div
+  class="wrapper max-w-[1500px] mx-auto"
+  style={cssColors}
+>
   <div class="p-5" />
   <div class="landing w-full bg-surface-900">
     <img src={tag} class="w-11/12 sm:w-9/12 m-auto" />
@@ -402,11 +425,11 @@
   </div>
 
   <div class="bg-secondary-50 building text-on-primary-token relative w-full">
-    <BlurBackground />
+    <BlurBackground bind:this={blurBackgroundComponent} />
     <div class="moveBackground relative z-20 py-[6vw] w-full h-full">
       <div class="mx-auto py-16 w-[calc(100%-12vw)] bg-white/50 rounded-2xl">
         <h2
-          class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center"
+          class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center darkText"
         >
           Building for the <span class="text-gradient">future</span>
         </h2>
@@ -433,7 +456,7 @@
             <!-- todo get button to change color -->
             <button
               class="absolute bg-secondary-50 text-on-primary-token p-4 rounded-lg bottom-0 translate-y-1/2 transition-all duration-100 delay-0 hover:p-6 active:p-8"
-              on:click={changeColor}
+              on:click={handleColorChange}
             >
               Deploy With Rake
             </button>
@@ -458,14 +481,12 @@
 </div>
 
 <style>
-  :root {
+  .wrapper {
     --dark-color: hsl(var(--hue), 100%, 9%);
     --light-color: hsl(var(--hue), 95%, 98%);
     --base: hsl(var(--hue), 95%, 50%);
     --complimentary1: hsl(var(--hue-complimentary1), 95%, 50%);
     --complimentary2: hsl(var(--hue-complimentary2), 95%, 50%);
-
-    --font-family: "Poppins", system-ui;
 
     --bg-gradient: linear-gradient(
       to bottom,
@@ -482,6 +503,10 @@
       rgba(var(--color-primary-200)) 30%,
       /* rgba(255, 255, 255, 1) 35%, */ rgba(var(--color-tertiary-500)) 100%
     );
+  }
+
+  .darkText {
+    color: var(--dark-color);
   }
 
   .text-gradient {

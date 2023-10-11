@@ -1,7 +1,7 @@
 <!-- https://codepen.io/georgedoescode/pen/XWNmvro -->
 <script>
   import { onMount } from "svelte";
-  import { colorPalette } from "$lib/stores.js"
+  import { colorPalette, hue, hueComplimentary1, hueComplimentary2 } from "$lib/stores.js";
 
   import * as PIXI from "pixi.js";
   import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";
@@ -28,12 +28,12 @@
 
     app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
 
-    // Create colour palette
-    // colorPalette = new ColorPalette();
-    // colorPalette.update(() => {new ColorPalette()});
-    console.log($colorPalette);
     // Create orbs
     orbs = [];
+
+    $hue = $colorPalette.hue;
+    $hueComplimentary1 = $colorPalette.complimentaryHue1;
+    $hueComplimentary2 = $colorPalette.complimentaryHue2;
 
     for (let i = 0; i < 10; i++) {
       const orb = new Orb($colorPalette.randomColor());
@@ -58,10 +58,10 @@
   });
 
   export function changeColor() {
-    console.log($colorPalette);
-    console.log("changing color");
     $colorPalette.setColors();
-    $colorPalette.setCustomProperties();
+    $hue = $colorPalette.hue;
+    $hueComplimentary1 = $colorPalette.complimentaryHue1;
+    $hueComplimentary2 = $colorPalette.complimentaryHue2;
 
     orbs.forEach((orb) => {
       orb.fill = $colorPalette.randomColor();
@@ -71,8 +71,3 @@
 
 <!-- todo: would be cool if it followed the mouse on a delay or at least the mouse influenced it -->
 <canvas class={`absolute ${width} ${height} z-0`} bind:this={orbCanvas} />
-
-<button class="relative z-99" on:click={changeColor}>
-  <span>Randomise Colors</span>
-  <span>🎨</span>
-</button>

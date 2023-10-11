@@ -21,7 +21,6 @@
 
     // Handle the response accordingly
     if (response.ok) {
-      console.log("Form submitted successfully");
       submitted = true;
     } else {
       console.error("Failed to submit form");
