@@ -25,7 +25,13 @@
   "dependencies": {
     "@fontsource-variable/mulish": "^5.0.14",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@pixi/filter-kawase-blur": "^5.1.1",
     "@vercel/analytics": "^1.1.0",
-    "dotenv": "^16.3.1"
+    "debounce": "^1.2.1",
+    "dotenv": "^16.3.1",
+    "hsl-to-hex": "^1.0.0",
+    "pixi.js": "^7.3.1",
+    "simplex-noise": "^4.0.1",
+    "svelte-inview": "^4.0.1"
   }
 }

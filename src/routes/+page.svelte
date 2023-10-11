@@ -1,7 +1,12 @@
 <script>
   import { onMount } from "svelte";
-  import Box from "../lib/components/Box.svelte";
-  import Email from "../lib/components/Email.svelte";
+  import Box from "$lib/components/Box.svelte";
+  import Email from "$lib/components/Email.svelte";
+  import BlurBackground from "$lib/components/BlurBackground.svelte";
+  import changeColor from "$lib/components/BlurBackground.svelte";
+  import AnimateItem from "$lib/components/AnimateItem.svelte";
+
+  import { inview } from "svelte-inview";
 
   import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
   import { LightSwitch } from "@skeletonlabs/skeleton";
@@ -15,6 +20,26 @@
   import two from "$lib/assets/two.png";
   import three from "$lib/assets/three.png";
 
+  let open = [
+    [false, false, false],
+    [false, false, false],
+  ];
+  function handleAccordionItem(list, index) {
+    // toggle open and close all others in list
+    if (!open[list][index]) {
+      open[list].forEach((element) => {
+        element = false;
+      });
+      for (let i = 0; i < open[list].length; i++) {
+        open[list][i] = false;
+      }
+      open[list][index] = true;
+    }
+    // otherwise, close
+    else {
+      open[list][index] = false;
+    }
+  }
   const modalStore = getModalStore();
   const modalComponent = {
     // Pass a reference to your custom component
@@ -32,6 +57,9 @@
     modalStore.trigger(modal);
   }
 
+  let writingBlock;
+  let videoRef;
+
   onMount(() => {
     // array with texts to type in typewriter
     var dataText = [
@@ -43,10 +71,7 @@
 
     function typeWriter(text, i, fnCallback) {
       if (i < text.length) {
-        document.querySelector("#writingBlock").textContent = text.substring(
-          0,
-          i + 1
-        );
+        writingBlock.textContent = text.substring(0, i + 1);
         setTimeout(function () {
           typeWriter(text, i + 1, fnCallback);
         }, 50);
@@ -80,35 +105,45 @@
         class="btn px-32 py-6 variant-ghost-tertiary hover:hover:variant-ghost-primary"
         >Join the waitlist
       </button>
-      <Modal position='items-start' transitionInParams={{ duration: 150, opacity: 0, x: 0, y: -100 }} transitionOutParams={{ duration: 150, opacity: 0, x: 0, y: -100 }}/>
+      <Modal
+        position="items-start"
+        transitionInParams={{ duration: 150, opacity: 0, x: 0, y: -100 }}
+        transitionOutParams={{ duration: 150, opacity: 0, x: 0, y: -100 }}
+      />
     </div>
     <div class="below w-10/12 mx-auto">
       <video
         class="mx-auto"
         {poster}
         controls
+        muted
         disablepictureinpicture
         controlsList="nofullscreen nodownload noremoteplayback noplaybackrate nomode"
-        autoplay
         loop
+        bind:this={videoRef}
+        use:inview
+        on:inview_enter={() => videoRef.play()}
+        on:inview_leave={() => videoRef.pause()}
       >
-      <source src={video}>
+        <source src={video} />
         <track kind="captions" />
       </video>
 
-      <h3
-        class="text-center font-semibold pt-12 pb-24 text-4xl leading-relaxed"
-      >
-        Rake allows users to <span
-          class="text-primary-500 bg-secondary-500 font-bold"
+      <AnimateItem>
+        <h3
+          class="text-center font-semibold pt-12 pb-24 text-4xl leading-relaxed"
         >
-          <strong>deploy</strong>
-        </span>
-        resources straight to their cloud platform with a simple
-        <span class="text-primary-500 bg-secondary-500"
-          ><strong>drag and drop</strong></span
-        > interface.
-      </h3>
+          Rake allows users to <span
+            class="text-primary-500 bg-secondary-500 font-bold"
+          >
+            <strong>deploy</strong>
+          </span>
+          resources straight to their cloud platform with a simple
+          <span class="text-primary-500 bg-secondary-500"
+            ><strong>drag and drop</strong></span
+          > interface.
+        </h3>
+      </AnimateItem>
     </div>
   </div>
 
@@ -119,18 +154,20 @@
     <div
       class="w-10/12 mx-auto flex items-center justify-between flex-col md:flex-row gap-8"
     >
-      <div class="textgroup pl-6 w-full md:w-[45%] pt-7">
-        <h2 class="text-h2-scale font-[650] pb-[11px]">
-          A groundbreaking new way to deploy your cloud infrastructure
-        </h2>
-        <p class="leading-[1.8] font-light">
-          Transform your cloud deployment workflow. Once deployed,
-          configurations and manifests are generated and sent to a managed
-          kubernetes cluster. This cluster assumes responsibility for
-          synchronizing statuses between your diagram and the cloud. Letting you
-          spend less time bug squashing and more time for innovating.
-        </p>
-      </div>
+      <AnimateItem class="w-full md:w-45%">
+        <div class="textgroup pl-6 w-full pt-7">
+          <h2 class="text-h2-scale font-[650] pb-[11px]">
+            A groundbreaking new way to deploy your cloud infrastructure
+          </h2>
+          <p class="leading-[1.8] font-light">
+            Transform your cloud deployment workflow. Once deployed,
+            configurations and manifests are generated and sent to a managed
+            kubernetes cluster. This cluster assumes responsibility for
+            synchronizing statuses between your diagram and the cloud. Letting
+            you spend less time bug squashing and more time for innovating.
+          </p>
+        </div>
+      </AnimateItem>
       <img class="w-full md:w-6/12 object-contain px-12" src={circle} />
     </div>
   </div>
@@ -179,34 +216,36 @@
       </div>
     </div>
 
-    <div
-      class="flex flex-wrap justify-evenly flex-col gap-14 md:gap-0 md:flex-row"
-    >
-      <Box
-        shadow="drop-shadow-[-16px_16px_17px_rgb(182,208,242)]"
-        upDown="top-10"
+    <AnimateItem>
+      <div
+        class="flex flex-wrap justify-evenly flex-col gap-14 md:gap-0 md:flex-row"
       >
-        <img slot="icon" src={one} />
-        <p slot="info" class="font-medium">
-          Trade long complex configs for efficient interfaces
-        </p>
-      </Box>
-      <Box shadow="drop-shadow-[-16px_16px_17px_rgb(188,201,218)]">
-        <img slot="icon" src={two} />
-        <p slot="info" class="font-medium">
-          Retain the functionality of code with the simplicity of visuals
-        </p>
-      </Box>
-      <Box
-        shadow="drop-shadow-[-16px_16px_17px_rgb(191,194,198)]"
-        upDown="-top-10"
-      >
-        <img slot="icon" src={three} />
-        <p slot="info" class="font-medium">
-          Optimize variable management for efficiency and accuracy
-        </p>
-      </Box>
-    </div>
+        <Box
+          shadow="drop-shadow-[-16px_16px_17px_rgb(182,208,242)]"
+          upDown="top-10"
+        >
+          <img slot="icon" src={one} />
+          <p slot="info" class="font-medium">
+            Trade long complex configs for efficient interfaces
+          </p>
+        </Box>
+        <Box shadow="drop-shadow-[-16px_16px_17px_rgb(188,201,218)]">
+          <img slot="icon" src={two} />
+          <p slot="info" class="font-medium">
+            Retain the functionality of code with the simplicity of visuals
+          </p>
+        </Box>
+        <Box
+          shadow="drop-shadow-[-16px_16px_17px_rgb(191,194,198)]"
+          upDown="-top-10"
+        >
+          <img slot="icon" src={three} />
+          <p slot="info" class="font-medium">
+            Optimize variable management for efficiency and accuracy
+          </p>
+        </Box>
+      </div>
+    </AnimateItem>
   </div>
 
   <div class="pt-10 pb-[3.3vmax] bg-secondary-50" />
@@ -230,8 +269,14 @@
         </h3>
         <!-- todo: once one is open it cannot be closed -->
         <!-- todo: on different window sizes the items don't align -->
-        <Accordion autocollapse padding="py-6 px-6">
-          <AccordionItem class="border-y-[1px] border-white">
+        <Accordion padding="py-6 px-6">
+          <AccordionItem
+            class="border-y-[1px] border-white"
+            open={open[0][0]}
+            on:click={() => {
+              handleAccordionItem(0, 0);
+            }}
+          >
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Lengthy development times</span
@@ -244,7 +289,13 @@
               ></svelte:fragment
             >
           </AccordionItem>
-          <AccordionItem class="border-b-[1px] border-white ">
+          <AccordionItem
+            class="border-b-[1px] border-white "
+            open={open[0][1]}
+            on:click={() => {
+              handleAccordionItem(0, 1);
+            }}
+          >
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Inefficient flow</span></svelte:fragment
@@ -257,7 +308,13 @@
               ></svelte:fragment
             >
           </AccordionItem>
-          <AccordionItem class="border-b-[1px] border-white ">
+          <AccordionItem
+            class="border-b-[1px] border-white "
+            open={open[0][2]}
+            on:click={() => {
+              handleAccordionItem(0, 2);
+            }}
+          >
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Cumbersome to manage</span
@@ -279,8 +336,14 @@
         <h3 class="text-h3-scale px-4 pb-4 border-b-[1px] border-white">
           Development using <span class="text-primary-500">Rake</span>
         </h3>
-        <Accordion autocollapse padding="py-6 px-6">
-          <AccordionItem class="border-y-[1px] border-white ">
+        <Accordion padding="py-6 px-6">
+          <AccordionItem
+            class="border-y-[1px] border-white "
+            open={open[1][0]}
+            on:click={() => {
+              handleAccordionItem(1, 0);
+            }}
+          >
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Instant Deployment</span></svelte:fragment
@@ -293,7 +356,13 @@
               >
             </svelte:fragment>
           </AccordionItem>
-          <AccordionItem class="border-b-[1px] border-white ">
+          <AccordionItem
+            class="border-b-[1px] border-white "
+            open={open[1][1]}
+            on:click={() => {
+              handleAccordionItem(1, 1);
+            }}
+          >
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Live Resource Managing</span
@@ -307,7 +376,13 @@
               ></svelte:fragment
             >
           </AccordionItem>
-          <AccordionItem class="border-b-[1px] border-white ">
+          <AccordionItem
+            class="border-b-[1px] border-white "
+            open={open[1][2]}
+            on:click={() => {
+              handleAccordionItem(1, 2);
+            }}
+          >
             <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Simple Interface</span></svelte:fragment
@@ -325,31 +400,43 @@
     </div>
   </div>
 
-  <div class="building bg-secondary-50 text-on-primary-token p-[2vw]">
-    <div class="moveBackground bg-primary-500 py-16">
-      <h2 class="w-11/12 sm: w-full text-4xl md:text-h2-scale font-bold pb-16 text-center">
-        Building for the future
-      </h2>
-      <div
-        class="flex flex-col md:flex-row justify-center items-center gap-10 pb-16"
-      >
-        <p
-          class="mx-auto md:mx-0 w-11/12 md:w-3/12 text-xl md:text-2xl font-bold md:font-extrabold"
+  <div class="bg-secondary-50 building text-on-primary-token relative w-full">
+    <BlurBackground />
+    <div class="moveBackground relative z-20 py-[6vw] w-full h-full">
+      <div class="mx-auto py-16 w-[calc(100%-12vw)] bg-white/50 rounded-2xl">
+        <h2
+          class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center"
         >
-          With the introduction of AI, building your entire system will be just
-          a few words away…
-        </p>
+          Building for the <span class="text-gradient">future</span>
+        </h2>
         <div
-          class="text-on-secondary-token bg-surface-500 w-10/12 md:w-4/12 h-[200px] md:h-[16vw] flex items-center justify-center rounded-2xl"
+          class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-10 pb-16"
         >
-          <div class="w-9/12 p-2 text-center font-extrabold">
-            <p class="inline text-[#2a97fe]">"</p>
-            <p class="inline" id="writingBlock">
-              create a secure and HIPAA-compliant endpoint to access anonymized
-              patient data
-            </p>
-            <p class="inline text-[#2a97fe]">"</p>
-            <!-- <div>Deploy with Rake</div> -->
+          <p
+            class="mx-auto md:mx-0 w-11/12 md:w-3/12 text-xl md:text-2xl font-bold md:font-extrabold"
+          >
+            With the introduction of AI, building your entire system will be
+            just a few words away…
+          </p>
+          <div
+            class="relative text-on-secondary-token bg-surface-500 w-10/12 md:w-4/12 h-[200px] md:h-auto flex items-center justify-center rounded-2xl"
+          >
+            <div class="w-9/12 p-2 text-center font-extrabold">
+              <p class="inline text-gradient">"</p>
+              <p class="inline" bind:this={writingBlock}>
+                create a secure and HIPAA-compliant endpoint to access
+                anonymized patient data
+              </p>
+              <p class="inline text-gradient">"</p>
+              <!-- <div>Deploy with Rake</div> -->
+            </div>
+            <!-- todo get button to change color -->
+            <button
+              class="absolute bg-secondary-50 text-on-primary-token p-4 rounded-lg bottom-0 translate-y-1/2 hover:p-6 transition-all duration-100 delay-0"
+              on:click={changeColor}
+            >
+              Deploy With Rake
+            </button>
           </div>
         </div>
       </div>
@@ -371,4 +458,41 @@
 </div>
 
 <style>
+  :root {
+    --dark-color: hsl(var(--hue), 100%, 9%);
+    --light-color: hsl(var(--hue), 95%, 98%);
+    --base: hsl(var(--hue), 95%, 50%);
+    --complimentary1: hsl(var(--hue-complimentary1), 95%, 50%);
+    --complimentary2: hsl(var(--hue-complimentary2), 95%, 50%);
+
+    --font-family: "Poppins", system-ui;
+
+    --bg-gradient: linear-gradient(
+      to bottom,
+      hsl(var(--hue), 95%, 99%),
+      hsl(var(--hue), 95%, 84%)
+    );
+  }
+
+  .building {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      174deg,
+      rgba(var(--color-primary-300)) 0%,
+      rgba(var(--color-primary-200)) 30%,
+      /* rgba(255, 255, 255, 1) 35%, */ rgba(var(--color-tertiary-500)) 100%
+    );
+  }
+
+  .text-gradient {
+    background-image: linear-gradient(
+      45deg,
+      var(--base) 25%,
+      var(--complimentary2)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+  }
 </style>
