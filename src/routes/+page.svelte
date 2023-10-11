@@ -5,6 +5,12 @@
   import BlurBackground from "$lib/components/BlurBackground.svelte";
   import changeColor from "$lib/components/BlurBackground.svelte";
   import AnimateItem from "$lib/components/AnimateItem.svelte";
+  import {
+    colorPalette,
+    hue,
+    hueComplimentary1,
+    hueComplimentary2,
+  } from "$lib/stores.js";
 
   import { inview } from "svelte-inview";
 
@@ -19,6 +25,21 @@
   import one from "$lib/assets/one.png";
   import two from "$lib/assets/two.png";
   import three from "$lib/assets/three.png";
+
+  let blurBackgroundComponent;
+  let handleColorChange;
+
+  $: cssColors = `--dark-color: hsl(${$hue}, 100%, 9%);
+    --light-color: hsl(${$hue}, 95%, 98%);
+    --base: hsl(${$hue}, 95%, 50%);
+    --complimentary1: hsl(${$hueComplimentary1}, 95%, 50%);
+    --complimentary2: hsl(${$hueComplimentary2}, 95%, 50%);
+
+    --bg-gradient: linear-gradient(
+      to bottom,
+      hsla(${$hue}, 95%, 99%, .5),
+      hsla(${$hue}, 95%, 95%, .5)
+    );`;
 
   let open = [
     [false, false, false],
@@ -92,9 +113,15 @@
     }
     StartTextAnimation(0);
   });
+
+  onMount(function () {
+    handleColorChange = function () {
+      blurBackgroundComponent.changeColor();
+    };
+  });
 </script>
 
-<div class="wrapper max-w-[1500px] mx-auto">
+<div class="wrapper max-w-[1500px] mx-auto" style={cssColors}>
   <div class="p-5" />
   <div class="landing w-full bg-surface-900">
     <img src={tag} class="w-11/12 sm:w-9/12 m-auto" />
@@ -403,7 +430,9 @@
   <div class="bg-secondary-50 building text-on-primary-token relative w-full">
     <BlurBackground />
     <div class="moveBackground relative z-20 py-[6vw] w-full h-full">
-      <div class="mx-auto py-16 w-[calc(100%-12vw)] bg-white/50 rounded-2xl">
+      <div
+        class="mx-auto py-16 w-[calc(100%-12vw)] rounded-2xl backgroundGradient"
+      >
         <h2
           class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center"
         >
@@ -423,7 +452,10 @@
           >
             <div class="w-9/12 p-2 text-center font-extrabold">
               <p class="inline text-gradient">"</p>
-              <p class="inline" bind:this={writingBlock}>
+              <p
+                class="inline text-[var(--light-color)]"
+                bind:this={writingBlock}
+              >
                 create a secure and HIPAA-compliant endpoint to access
                 anonymized patient data
               </p>

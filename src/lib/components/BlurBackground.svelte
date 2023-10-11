@@ -1,4 +1,7 @@
-<!-- https://codepen.io/georgedoescode/pen/XWNmvro -->
+<!-- 
+https://codepen.io/georgedoescode/pen/XWNmvro 
+https://animista.net/play/entrances/slide-in-blurred/slide-in-blurred-bottom
+-->
 <script>
   import { onMount } from "svelte";
 
