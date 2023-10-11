@@ -1,7 +1,12 @@
 <!-- https://codepen.io/georgedoescode/pen/XWNmvro -->
 <script>
   import { onMount } from "svelte";
-  import { colorPalette, hue, hueComplimentary1, hueComplimentary2 } from "$lib/stores.js";
+  import {
+    colorPalette,
+    hue,
+    hueComplimentary1,
+    hueComplimentary2,
+  } from "$lib/stores.js";
 
   import * as PIXI from "pixi.js";
   import { KawaseBlurFilter } from "@pixi/filter-kawase-blur";

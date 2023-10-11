@@ -23,7 +23,7 @@
   let blurBackgroundComponent;
   let handleColorChange;
 
-  $: cssColors = `--dark-color: hsl${$hue}, 100%, 9%);
+  $: cssColors = `--dark-color: hsl(${$hue}, 100%, 9%);
     --light-color: hsl(${$hue}, 95%, 98%);
     --base: hsl(${$hue}, 95%, 50%);
     --complimentary1: hsl(${$hueComplimentary1}, 95%, 50%);
@@ -31,8 +31,8 @@
 
     --bg-gradient: linear-gradient(
       to bottom,
-      hsl(${$hue}, 95%, 99%),
-      hsl(${$hue}, 95%, 84%)
+      hsla(${$hue}, 95%, 99%, .5),
+      hsla(${$hue}, 95%, 95%, .5)
     );`
 
   let open = [
@@ -122,11 +122,11 @@
   <div class="p-5" />
   <div class="landing w-full bg-surface-900">
     <img src={tag} class="w-11/12 sm:w-9/12 m-auto" />
-    <div class="join p-20 flex justify-center align-center">
+    <div class="join py-20 px-0 sm:p-20 flex justify-center align-center">
       <button
         type="button"
         on:click={openModal}
-        class="btn px-32 py-6 variant-ghost-tertiary hover:hover:variant-ghost-primary"
+        class="btn w-10/12 sm:w-auto sm:px-32 py-6 variant-ghost-tertiary hover:hover:variant-ghost-primary"
         >Join the waitlist
       </button>
       <Modal
@@ -427,9 +427,9 @@
   <div class="bg-secondary-50 building text-on-primary-token relative w-full">
     <BlurBackground bind:this={blurBackgroundComponent} />
     <div class="moveBackground relative z-20 py-[6vw] w-full h-full">
-      <div class="mx-auto py-16 w-[calc(100%-12vw)] bg-white/50 rounded-2xl">
+      <div class="mx-auto py-16 w-[calc(100%-12vw)] rounded-2xl">
         <h2
-          class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center darkText"
+          class="w-11/12 md:w-full text-4xl md:text-h2-scale font-bold pb-16 text-center text-[var(--dark-color)]"
         >
           Building for the <span class="text-gradient">future</span>
         </h2>
@@ -437,7 +437,7 @@
           class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-10 pb-16"
         >
           <p
-            class="mx-auto md:mx-0 w-11/12 md:w-3/12 text-xl md:text-2xl font-bold md:font-extrabold"
+            class="mx-auto md:mx-0 w-11/12 md:w-3/12 text-xl md:text-2xl font-bold md:font-extrabold text-[var(--dark-color)]"
           >
             With the introduction of AI, building your entire system will be
             just a few words away…
@@ -447,7 +447,7 @@
           >
             <div class="w-9/12 p-2 text-center font-extrabold">
               <p class="inline text-gradient">"</p>
-              <p class="inline" bind:this={writingBlock}>
+              <p class="inline text-[var(--light-color)]" bind:this={writingBlock}>
                 create a secure and HIPAA-compliant endpoint to access
                 anonymized patient data
               </p>
@@ -455,7 +455,7 @@
             </div>
             <!-- todo get button to change color -->
             <button
-              class="absolute bg-secondary-50 text-on-primary-token p-4 rounded-lg bottom-0 translate-y-1/2 transition-all duration-100 delay-0 hover:p-6 active:p-8"
+              class="absolute bg-[var(--light-color)] p-4 rounded-lg bottom-0 translate-y-1/2 transition-all duration-100 delay-0 text-[var(--dark-color)] hover:p-6 active:p-8"
               on:click={handleColorChange}
             >
               Deploy With Rake
@@ -481,20 +481,6 @@
 </div>
 
 <style>
-  .wrapper {
-    --dark-color: hsl(var(--hue), 100%, 9%);
-    --light-color: hsl(var(--hue), 95%, 98%);
-    --base: hsl(var(--hue), 95%, 50%);
-    --complimentary1: hsl(var(--hue-complimentary1), 95%, 50%);
-    --complimentary2: hsl(var(--hue-complimentary2), 95%, 50%);
-
-    --bg-gradient: linear-gradient(
-      to bottom,
-      hsl(var(--hue), 95%, 99%),
-      hsl(var(--hue), 95%, 84%)
-    );
-  }
-
   .building {
     background: rgb(255, 255, 255);
     background: linear-gradient(
@@ -503,10 +489,6 @@
       rgba(var(--color-primary-200)) 30%,
       /* rgba(255, 255, 255, 1) 35%, */ rgba(var(--color-tertiary-500)) 100%
     );
-  }
-
-  .darkText {
-    color: var(--dark-color);
   }
 
   .text-gradient {
