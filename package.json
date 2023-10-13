@@ -23,7 +23,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@fontsource-variable/mulish": "^5.0.14",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@pixi/filter-kawase-blur": "^5.1.1",
     "@vercel/analytics": "^1.1.0",

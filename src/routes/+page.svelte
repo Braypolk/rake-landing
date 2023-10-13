@@ -27,6 +27,11 @@
 
   let blurBackgroundComponent;
   let handleColorChange;
+  let landing;
+
+  $: innerWidth = 0;
+  let bigFont 
+  $: calcFontSize(innerWidth);
 
   $: cssColors = `--dark-color: hsl(${$hue}, 100%, 9%);
     --light-color: hsl(${$hue}, 95%, 98%);
@@ -77,10 +82,34 @@
     modalStore.trigger(modal);
   }
 
+  function scrollTo(element) {
+    element.scrollIntoView();
+  }
+
+  function calcFontSize(innerWidth) {
+    // console.log(innerWidth);
+    
+    if (bigFont != undefined) {
+      console.log('innerwidth',innerWidth);
+      let scaleSource = innerWidth,
+        scaleFactor = 0.35,
+        maxScale = 600,
+        minScale = 30; //Tweak these values to taste
+
+      let fontSize = scaleSource * scaleFactor; //Multiply the width of the body by the scaling factor:
+
+      if (fontSize > maxScale) fontSize = maxScale;
+      if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
+      console.log('fontSize',fontSize);
+      bigFont.style.fontSize = fontSize + "%";
+    }
+  }
+
   let writingBlock;
   let videoRef;
 
   onMount(() => {
+    // bug: on hot reload it creates multiple instances of typewriter animation
     // array with texts to type in typewriter
     var dataText = [
       "create a secure and HIPAA-compliant endpoint to access anonymized patient data",
@@ -120,9 +149,64 @@
   });
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="wrapper max-w-[1500px] mx-auto" style={cssColors}>
-  <div class="p-5" />
-  <div class="landing w-full bg-surface-900">
+  <div
+    class="h-[100vh] w-full mx-auto flex justify-evenly flex-col align-center bg-surface-500 relative z-50"
+  >
+    <div class="marquee text-xl">
+      <ul class="marquee__content">
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+      </ul>
+
+      <ul aria-hidden="true" class="marquee__content">
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+        <li>Welcome To</li>
+      </ul>
+    </div>
+    <!-- text-[40vmin] leading-[40vmin] lg:text-[55vmin] lg:leading-[55vmin] -->
+    <div bind:this={bigFont}>
+      <h1 class={`text-primary-500 text-[6em] leading-none text-center font-semibold`}>
+        Rake
+      </h1>
+    </div>
+    <button
+      type="button"
+      on:click={() => scrollTo(landing)}
+      class="btn w-8/12 sm:w-3/12 sm:px-32 mx-auto py-6 variant-ringed-success hover:hover:variant-filled-success"
+      >Click to Deploy
+    </button>
+  </div>
+
+  <div class="landing w-full relative !z-10" bind:this={landing}>
+    <svg
+      viewBox="0 0 1500 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="pb-20"
+    >
+      <path
+        d="M750.744 99.9872C360.238 101.319 0 0 0 0H1500C1500 0 1141.25 98.6556 750.744 99.9872Z"
+        class="fill-surface-500"
+      />
+    </svg>
+
     <img src={tag} class="w-11/12 sm:w-9/12 m-auto" />
     <div class="join py-20 px-0 sm:p-20 flex justify-center align-center">
       <button
@@ -157,7 +241,7 @@
 
       <AnimateItem>
         <h3
-          class="text-center font-semibold pt-12 pb-24 text-4xl leading-relaxed"
+          class="text-center font-semibold pt-12 pb-24 text-xl sm:text-4xl leading-relaxed"
         >
           Rake allows users to <span
             class="text-primary-500 bg-secondary-500 font-bold"
@@ -180,7 +264,7 @@
     <div
       class="w-10/12 mx-auto flex items-center justify-between flex-col md:flex-row gap-8"
     >
-      <AnimateItem class="w-full md:w-45%">
+      <AnimateItem>
         <div class="textgroup pl-6 w-full pt-7">
           <h2 class="text-h2-scale font-[650] pb-[11px]">
             A groundbreaking new way to deploy your cloud infrastructure
@@ -242,6 +326,7 @@
       </div>
     </div>
 
+    <!-- todo: change on mobile so cards take up less space -->
     <AnimateItem>
       <div
         class="flex flex-wrap justify-evenly flex-col gap-24 md:gap-0 md:flex-row"
@@ -281,8 +366,7 @@
       class="bg-secondary-50 w-full h-0 border-solid border-x-transparent border-l-[100vw] border-r-0 border-b-[6vw] border-b-surface-800"
     />
   </div>
-  <div class="py-20 bg-surface-800">
-    <!-- <div class="wedge"></div> -->
+  <div class="py-20">
     <h2 class="text-h2-scale font-semibold pb-[11px] text-center pb-20">
       Simplifying the system.
     </h2>
@@ -303,7 +387,6 @@
               handleAccordionItem(0, 0);
             }}
           >
-            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Lengthy development times</span
               ></svelte:fragment
@@ -322,7 +405,6 @@
               handleAccordionItem(0, 1);
             }}
           >
-            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Inefficient flow</span></svelte:fragment
             >
@@ -341,7 +423,6 @@
               handleAccordionItem(0, 2);
             }}
           >
-            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Cumbersome to manage</span
               ></svelte:fragment
@@ -370,7 +451,6 @@
               handleAccordionItem(1, 0);
             }}
           >
-            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Instant Deployment</span></svelte:fragment
             >
@@ -389,7 +469,6 @@
               handleAccordionItem(1, 1);
             }}
           >
-            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Live Resource Managing</span
               ></svelte:fragment
@@ -409,7 +488,6 @@
               handleAccordionItem(1, 2);
             }}
           >
-            <!-- <svelte:fragment slot="lead">(icon)</svelte:fragment> -->
             <svelte:fragment slot="summary"
               ><span class="text-lg">Simple Interface</span></svelte:fragment
             >
@@ -473,8 +551,8 @@
     </div>
   </div>
 
-  <div class="bg-surface-800" id="join">
-    <div class="h-[80vh] w-fit mx-auto bg-surface-800 py-20">
+  <div id="join">
+    <div class="h-[80vh] w-fit mx-auto py-20">
       <h2 class="text-h2-scale w-fit font-bold pb-10 pr-24">
         Revolutionize Your<br /> Cloud Development<br />with
         <span class="text-primary-500">Rake</span>
@@ -482,7 +560,7 @@
       <Email />
     </div>
   </div>
-  <footer class="bg-surface-800 p-10 font-extralight">
+  <footer class="p-10 font-extralight text-sm">
     Property of Rake LLC. All rights reserved. 2023
   </footer>
 </div>
@@ -512,5 +590,31 @@
 
   .backgroundGradient {
     background: var(--bg-gradient);
+  }
+
+  .marquee {
+    --gap: 2rem;
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+  }
+
+  .marquee__content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    min-width: 100%;
+    gap: var(--gap);
+    animation: scroll 35s linear infinite;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
   }
 </style>

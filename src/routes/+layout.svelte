@@ -1,7 +1,7 @@
 <script>
   import "../app.postcss";
   // Supports weights 200-900
-  import "@fontsource-variable/mulish";
+  // import "@fontsource-variable/mulish";
   import { dev } from "$app/environment";
   import { inject } from "@vercel/analytics";
 
@@ -11,10 +11,10 @@
   initializeStores();
 </script>
 
-<slot />
+<body class="bg-surface-400">
+  <slot />
+</body>
 
-<style>
-  * {
-    font-family: "Mulish Variable", sans-serif;
-  }
+<style global>
+  body { @apply bg-surface-100-800-token; }
 </style>

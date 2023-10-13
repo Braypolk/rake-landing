@@ -6,8 +6,8 @@ export const rakeTheme = {
     name: 'rake-theme',
     properties: {
 		// =~= Theme Properties =~=
-		"--theme-font-family-base": "Mulish Variable, sans-serif",
-		"--theme-font-family-heading": "Mulish Variable, sans-serif",
+		"--theme-font-family-base": "Poppins, sans-serif",
+		"--theme-font-family-heading": "Poppins, sans-serif",
 		"--theme-font-color-base": "0 0 0",
 		"--theme-font-color-dark": "255 255 255",
 		"--theme-rounded-base": "9999px",
