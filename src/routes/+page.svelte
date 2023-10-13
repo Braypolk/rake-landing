@@ -228,7 +228,7 @@
         controls
         muted
         disablepictureinpicture
-        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate nomode"
+        controlsList="nodownload noremoteplayback noplaybackrate nomode"
         loop
         bind:this={videoRef}
         use:inview
