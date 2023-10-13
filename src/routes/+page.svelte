@@ -87,10 +87,8 @@
   }
 
   function calcFontSize(innerWidth) {
-    // console.log(innerWidth);
     
     if (bigFont != undefined) {
-      console.log('innerwidth',innerWidth);
       let scaleSource = innerWidth,
         scaleFactor = 0.35,
         maxScale = 600,
@@ -100,7 +98,6 @@
 
       if (fontSize > maxScale) fontSize = maxScale;
       if (fontSize < minScale) fontSize = minScale; //Enforce the minimum and maximums
-      console.log('fontSize',fontSize);
       bigFont.style.fontSize = fontSize + "%";
     }
   }
