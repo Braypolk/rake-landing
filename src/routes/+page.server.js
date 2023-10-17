@@ -8,7 +8,6 @@ export const actions = {
         const password = data.get('password')
         if (password == process.env.PASS) {
             return { success: true }
-            
         }
         return { success: false }
 	}

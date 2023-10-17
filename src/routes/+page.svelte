@@ -149,7 +149,7 @@
 
 <svelte:window bind:innerWidth />
 
-{#if !form}
+{#if !form?.success}
   <main class="flex flex-col items-center justify-center h-[100vh]">
     <div bind:this={bigFont}>
       <h1
