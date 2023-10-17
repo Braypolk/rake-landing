@@ -29,7 +29,7 @@
     e.target.reset();
   }
 </script>
-
+<!-- todo: email fail doesn't display correctly. Still shows success -->
 <div
   class={`${width} max-w-[450px] email bg-secondary-50 text-on-primary-token mx-auto rounded-2xl p-8`}
 >
