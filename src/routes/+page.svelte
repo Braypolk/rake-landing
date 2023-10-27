@@ -149,7 +149,7 @@
 
 <svelte:window bind:innerWidth />
 
-{#if !form?.success}
+<!-- {#if !form?.success}
   <main class="flex flex-col items-center justify-center h-[100vh]">
     <div bind:this={bigFont}>
       <h1
@@ -170,7 +170,7 @@
       <button type="submit" class="px-4 py-2 bg-primary-500 rounded-md">Login</button>
     </form>
   </main>
-{:else}
+{:else} -->
   <div class="wrapper max-w-[1500px] mx-auto" style={cssColors}>
     <div
       class="h-[100vh] w-full mx-auto flex justify-evenly flex-col align-center bg-surface-500 relative z-50"
@@ -588,7 +588,7 @@
       Property of Rake LLC. All rights reserved. 2023
     </footer>
   </div>
-{/if}
+<!-- {/if} -->
 
 <style>
   .building {
