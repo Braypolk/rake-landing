@@ -34,7 +34,7 @@
   class={`${width} max-w-[450px] email bg-secondary-50 text-on-primary-token mx-auto rounded-2xl p-8`}
 >
   {#if !submitted}
-    <form class="form block" on:submit|preventDefault={handleSubmit}>
+    <!-- <form class="form block" on:submit|preventDefault={handleSubmit}>
       <label for="email" class="font-light"
         >Email <span class="text-success-700 font-light">(required)</span
         ></label
@@ -50,7 +50,8 @@
         class="block mx-auto mb-4 btn btn-lg bg-gradient-to-br variant-gradient-primary-tertiary"
         type="submit">Join</button
       >
-    </form>
+    </form> -->
+    <p>Still working on it, email sign up coming soon!</p>
   {:else}
     <h2 class="text-h2-scale text-center">Thank you for joining!</h2>
   {/if}

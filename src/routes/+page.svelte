@@ -25,7 +25,7 @@
   import two from "$lib/assets/two.png";
   import three from "$lib/assets/three.png";
 
-  export let form = false;
+  // export let form = false;
 
   let blurBackgroundComponent;
   let handleColorChange;
@@ -584,9 +584,6 @@
         <Email />
       </div>
     </div>
-    <footer class="p-10 font-extralight text-sm">
-      Property of Rake LLC. All rights reserved. 2023
-    </footer>
   </div>
 <!-- {/if} -->
 
