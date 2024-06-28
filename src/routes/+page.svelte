@@ -171,7 +171,7 @@
     </form>
   </main>
 {:else} -->
-  <div class="wrapper max-w-[1500px] mx-auto" style={cssColors}>
+  <div class="wrapper max-w-[1500px] mx-auto" class:scroll-lock={modalStore} style={cssColors}>
     <div
       class="h-[100vh] w-full mx-auto flex justify-evenly flex-col align-center bg-surface-500 relative z-50"
     >
